@@ -3,7 +3,7 @@ package com.back.chlejacezolwie;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("test")
+@Table("data")
 public class Data {
 
 	@Id
