@@ -13,10 +13,9 @@ public class ApplicationSecurityConfig{
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http
-	        .sessionManagement(session -> session
-	            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-	        );
+	    http.antMatcher("/join_game").sessionManagement(session ->
+	    session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+	    		);
 	    http.csrf().disable();
 	    http.authorizeRequests().anyRequest().permitAll();
 	    return http.build();

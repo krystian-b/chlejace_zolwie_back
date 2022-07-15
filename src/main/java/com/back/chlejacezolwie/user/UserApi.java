@@ -2,6 +2,8 @@ package com.back.chlejacezolwie.user;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,15 +24,14 @@ public class UserApi {
 	//https://spring.io/guides/gs/rest-service-cors/
 	@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
 	@PostMapping("/join_game")
-	public Long joinGame(@CookieValue(name = "JSESSIONID") String sessionId,
-			@RequestBody RoomParameters roomParam) {
+	public Long joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
 		
 		//for testing
-		System.out.println(sessionId);
-		
 		System.out.println(roomParam.getX());
 		System.out.println(roomParam.getY());
 		System.out.println(roomParam.getZ());
+		
+		String sessionId = session.getId();
 		
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
