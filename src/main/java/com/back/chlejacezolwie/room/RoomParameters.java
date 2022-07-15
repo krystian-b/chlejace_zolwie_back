@@ -1,9 +1,16 @@
 package com.back.chlejacezolwie.room;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RoomParameters {
 
+	@JsonProperty("X")
 	private int x;
+	
+	@JsonProperty("Y")
 	private int y;
+	
+	@JsonProperty("Z")
 	private int z;
 	
 	public int getX() {
