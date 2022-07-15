@@ -20,7 +20,7 @@ public class UserApi {
 	UserRepository userRepository;
 
 	//https://spring.io/guides/gs/rest-service-cors/
-	@CrossOrigin(origins = "wss://chlejace-zolwie-front.herokuapp.com")
+	@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
 	@PostMapping("/join_game")
 	public Long joinGame(@CookieValue(name = "JSESSIONID") String sessionId,
 			@RequestBody RoomParameters roomParam) {
