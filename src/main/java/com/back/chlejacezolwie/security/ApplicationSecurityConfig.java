@@ -13,7 +13,7 @@ public class ApplicationSecurityConfig{
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http.antMatcher("/join_game").sessionManagement(session ->
+	    http.sessionManagement(session ->
 	    session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 	    		);
 	    http.csrf().disable();

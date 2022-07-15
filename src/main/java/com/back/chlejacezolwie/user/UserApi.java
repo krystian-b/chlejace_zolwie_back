@@ -20,16 +20,18 @@ public class UserApi {
 	UserRepository userRepository;
 
 	//https://spring.io/guides/gs/rest-service-cors/
+	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
+	
 	@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
 	@PostMapping("/join_game")
-	public Long joinGame(@CookieValue("JSESSIONID") String sessionId, 
+	public void joinGame(
 			@RequestBody RoomParameters roomParam) {
 		
 		//for testing
 		System.out.println(roomParam.getX());
 		System.out.println(roomParam.getY());
 		System.out.println(roomParam.getZ());
-		
+		/*
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
 			User newUser = new User(sessionId);
@@ -38,7 +40,7 @@ public class UserApi {
 		
 		Optional<User> newUser = userRepository.findBySession(sessionId);
 
-		return newUser.get().getId();
+		return newUser.get().getId();*/
 	}
 	
 }
