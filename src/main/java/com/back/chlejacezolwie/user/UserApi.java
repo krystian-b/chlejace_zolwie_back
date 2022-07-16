@@ -3,7 +3,6 @@ package com.back.chlejacezolwie.user;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +23,8 @@ public class UserApi {
 	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
 	
 	//@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
-	@PostMapping(path = "/join_game", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void joinGame(
-			@RequestBody RoomParameters roomParam) {
+	@PostMapping(path = "/join_game")
+	public void joinGame(@RequestBody RoomParameters roomParam) {
 		
 		//for testing
 		System.out.println(roomParam.getX());

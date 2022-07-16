@@ -36,7 +36,8 @@ public class RoomParameters {
 
 	}
 	
-	public RoomParameters(int x, int y, int z) {
+	public RoomParameters(@JsonProperty("X") int x, 
+			@JsonProperty("Y") int y, @JsonProperty("Z") int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
