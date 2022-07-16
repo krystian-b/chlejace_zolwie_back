@@ -25,14 +25,14 @@ public class UserApi {
 	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
 	
 	@PostMapping(value = "/join_game")
-	public void joinGame(@RequestBody RoomParameters roomParam) {
+	public void joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
 		
 		//for testing
 		System.out.println(roomParam.getX());
 		System.out.println(roomParam.getY());
 		System.out.println(roomParam.getZ());
 		
-		//System.out.println(session.getId());
+		System.out.println(session.getId());
 		/*
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
