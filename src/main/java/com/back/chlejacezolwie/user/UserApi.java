@@ -1,5 +1,7 @@
 package com.back.chlejacezolwie.user;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +27,7 @@ public class UserApi {
 	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
 	
 	@PostMapping(value = "/join_game")
-	public void joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
+	public Map<String, String> joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
 		
 		//for testing
 		System.out.println(roomParam.getX());
@@ -33,7 +35,9 @@ public class UserApi {
 		System.out.println(roomParam.getZ());
 		
 		System.out.println(session.getId());
-		/*
+		
+		String sessionId = session.getId();
+		
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
 			User newUser = new User(sessionId);
@@ -42,7 +46,11 @@ public class UserApi {
 		
 		Optional<User> newUser = userRepository.findBySession(sessionId);
 
-		return newUser.get().getId();*/
+		HashMap<String, String> userId = new HashMap<String, String>();
+		
+		userId.put("client_id", newUser.get().getId().toString());
+		
+		return userId;
 	}
 	
 }
