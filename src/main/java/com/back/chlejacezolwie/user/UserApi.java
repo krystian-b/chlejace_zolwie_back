@@ -22,7 +22,7 @@ public class UserApi {
 	//https://spring.io/guides/gs/rest-service-cors/
 	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
 	
-	@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
+	//@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
 	@PostMapping("/join_game")
 	public void joinGame(
 			@RequestBody RoomParameters roomParam) {
