@@ -9,6 +9,7 @@ public class User {
 	@Id
 	private Long id;
 	private String session;
+	private Long lastPing;
 	
 	public Long getId() {
 		return id;
@@ -22,13 +23,20 @@ public class User {
 	public void setSession(String session) {
 		this.session = session;
 	}
+	public Long getLastPing() {
+		return lastPing;
+	}
+	public void setLastPing(Long lastPing) {
+		this.lastPing = lastPing;
+	}
 	
 	public User() {
 
 	}
 	
-	public User(String session) {
+	public User(String session, Long lastPing) {
 		this.session = session;
+		this.lastPing = lastPing;
 	}
 	
 }

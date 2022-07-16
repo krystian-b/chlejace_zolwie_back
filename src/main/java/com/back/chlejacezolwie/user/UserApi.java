@@ -1,5 +1,6 @@
 package com.back.chlejacezolwie.user;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,9 +31,11 @@ public class UserApi {
 	public Map<String, String> joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
 		
 		//for testing
+		/*
 		System.out.println(roomParam.getX());
 		System.out.println(roomParam.getY());
 		System.out.println(roomParam.getZ());
+		*/
 		
 		System.out.println(session.getId());
 		
@@ -40,14 +43,15 @@ public class UserApi {
 		
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
-			User newUser = new User(sessionId);
+			Long time = Instant.now().getEpochSecond();
+			
+			User newUser = new User(sessionId, time);
 			userRepository.save(newUser);
 		}
 		
 		Optional<User> newUser = userRepository.findBySession(sessionId);
 
 		HashMap<String, String> userId = new HashMap<String, String>();
-		
 		userId.put("client_id", newUser.get().getId().toString());
 		
 		return userId;
