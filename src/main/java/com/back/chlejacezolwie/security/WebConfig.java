@@ -11,10 +11,16 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins("https://chlejace-zolwie-front.herokuapp.com/")
-            .allowedOrigins("https://localhost")
             .allowedMethods("*")
             .allowedHeaders("*")
             .allowCredentials(true)
             .maxAge(3600);
+        
+        registry.addMapping("/**")
+        .allowedOrigins("https://localhost**")
+        .allowedMethods("*")
+        .allowedHeaders("*")
+        .allowCredentials(true)
+        .maxAge(3600);
     }
 }
