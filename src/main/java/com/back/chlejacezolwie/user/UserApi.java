@@ -24,16 +24,12 @@ public class UserApi {
 	
 	//@CrossOrigin(origins = "https://chlejace-zolwie-front.herokuapp.com/")
 	@PostMapping(path = "/join_game")
-	public void joinGame(@RequestBody String string) {
+	public void joinGame(@RequestBody RoomParameters roomParam) {
 		
 		//for testing
-		/*
 		System.out.println(roomParam.getX());
 		System.out.println(roomParam.getY());
 		System.out.println(roomParam.getZ());
-		*/
-		
-		System.out.println(string);
 		/*
 		if(userRepository.findBySession(sessionId).isEmpty()) {
 			
