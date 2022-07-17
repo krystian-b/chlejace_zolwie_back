@@ -15,6 +15,7 @@ public class Room {
 	private int maxPlayers;
 	private int maxCards;
 	private int length;
+	private String status;
 	
 	public Long getId() {
 		return id;
@@ -52,17 +53,24 @@ public class Room {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Room() {
 		
 	}
 	
-	public Room(List<Long> players, List<String> stacks, int maxPlayers, int maxCards, int length) {
+	public Room(List<Long> players, List<String> stacks, int maxPlayers, 
+			int maxCards, int length, String status) {
 		this.players = players;
 		this.stacks = stacks;
 		this.maxPlayers = maxPlayers;
 		this.maxCards = maxCards;
 		this.length = length;
+		this.status = status;
 	}
 	
 }

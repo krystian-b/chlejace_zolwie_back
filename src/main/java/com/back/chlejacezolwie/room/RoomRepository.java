@@ -1,6 +1,9 @@
 package com.back.chlejacezolwie.room;
 
-public interface RoomRepository {
+import org.springframework.data.repository.Repository;
+
+public interface RoomRepository extends Repository <Room, Long> {
 	
+	Room save(Room newRoom);
 	
 }

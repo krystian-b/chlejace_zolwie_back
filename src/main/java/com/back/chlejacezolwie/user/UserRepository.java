@@ -7,6 +7,8 @@ import org.springframework.data.repository.Repository;
 
 public interface UserRepository extends Repository <User, Long>{
 
+	//https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#repositories.query-methods
+	
 	Optional<User> findById(Long id);
 	
 	Optional<User> findBySession(String session);
