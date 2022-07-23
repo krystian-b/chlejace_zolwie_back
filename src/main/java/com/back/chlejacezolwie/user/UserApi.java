@@ -103,6 +103,19 @@ public class UserApi {
 	}
 	*/
 	
+	@GetMapping("/are_they_online")
+	public void AreTheyOnline() {
+		Long time = Instant.now().getEpochSecond();
+		time = time - 600; //10 minutes
+		userRepository.removeInactiveUsers(time);
+	}
+	
+	@GetMapping("/i_am_online")
+	public void iAmOnline(HttpSession session) {
+		String sessionId = session.getId();
+		updateLastPing(sessionId);
+	}
+	
 	@PostMapping("/join_game")
 	public Map<String, String> joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
 		
@@ -120,10 +133,10 @@ public class UserApi {
 		HashMap<String, String> userId = new HashMap<String, String>();
 		userId.put("client_id", currentUser.get().getId().toString());
 
-		List<RoomCapacity> rooms = roomCapacityRepository.findAll();
+		List<RoomCapacity> rooms = 
+				roomCapacityRepository.findAll(roomParam.getX(), roomParam.getY(), roomParam.getZ());
 		
 		int i = 0;
-		
 		while(i < rooms.size() && !rooms.get(i).compare()) {i++;}
 		
 		if(i < rooms.size()) {

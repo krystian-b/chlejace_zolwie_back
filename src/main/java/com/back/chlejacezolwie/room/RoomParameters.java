@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RoomParameters {
 
-	@JsonProperty("X")
+	@JsonProperty("X")//max_players
 	private int x;
 	
-	@JsonProperty("Y")
+	@JsonProperty("Y")//max_cards
 	private int y;
 	
-	@JsonProperty("Z")
+	@JsonProperty("Z")//length
 	private int z;
 	
 	public int getX() {

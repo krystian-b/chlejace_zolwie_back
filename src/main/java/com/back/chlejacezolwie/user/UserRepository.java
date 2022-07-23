@@ -27,6 +27,8 @@ public interface UserRepository extends Repository <User, Long>{
 	@Query("UPDATE users SET room_id = :roomId WHERE session_id = :sessionId")
 	void updateRoomId(Long roomId, String sessionId);
 	
-	//void delete(List<User> users);
+	@Modifying
+	@Query("DELETE FROM users WHERE last_ping < :timeout")
+	void removeInactiveUsers(Long timeout);
 	
 }
