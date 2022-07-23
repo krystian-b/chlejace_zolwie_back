@@ -1,8 +1,10 @@
 package com.back.chlejacezolwie.user;
 
+import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,9 +15,15 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.back.chlejacezolwie.user.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.back.chlejacezolwie.dao.Field;
+import com.back.chlejacezolwie.dao.RoomCapacity;
+import com.back.chlejacezolwie.dao.RoomCapacityRepository;
 import com.back.chlejacezolwie.dao.Turtle;
 import com.back.chlejacezolwie.room.Room;
 import com.back.chlejacezolwie.room.RoomParameters;
@@ -29,57 +37,142 @@ public class UserApi {
 	
 	@Autowired
 	RoomRepository roomRepository;
+	
+	@Autowired
+	RoomCapacityRepository roomCapacityRepository;
 
 	//https://www.innoq.com/en/blog/cookie-based-spring-security-session/
 	
-	@PostMapping(value = "/join_game")
+	//https://www.javatpoint.com/how-to-convert-string-to-json-object-in-java
+	/*
+	@GetMapping("/send_room")
+	public ArrayList<Field> sendRoom() {
+		
+		ArrayList<Field> fields = new ArrayList<Field>();
+		
+		ArrayList<Turtle> turtles = new ArrayList<Turtle>();
+		turtles.add(new Turtle(1, "red"));
+		turtles.add(new Turtle(2, "blue"));
+		
+		for(int i = 0; i < 10; i++) {
+			fields.add(new Field());
+		}
+		
+		fields.get(0).setTurtles(turtles);
+		
+		//System.out.println(fields.get(0).toString());
+		
+		
+		String insert = "[ ";
+
+		for(int i = 0; i < fields.size(); i++) {
+			insert += fields.get(i).toString();
+			if(i < fields.size()-1) insert += ",";
+		}
+		
+		insert += "]";
+		
+		System.out.println(insert);
+		
+		Room newRoom = new Room(insert, 5, 5, 10, "not done");
+		
+		roomRepository.save(newRoom);
+		
+		return fields;
+		
+	}*/
+	/*
+	@GetMapping("/get_room")
+	public void getRoom(@RequestParam Long x) {
+		
+		//https://www.jsonschema2pojo.org/
+		
+		Room newRoom = roomRepository.findById(x);
+		
+		String string = newRoom.getStacks();
+		
+		System.out.println(string);
+		
+		Gson gson = new Gson();
+		Type listType = new TypeToken<ArrayList<Field>>(){}.getType();
+		
+		ArrayList<Field> fields = 
+				gson.fromJson(string, listType);
+		
+		System.out.println(fields);
+	}
+	*/
+	
+	@PostMapping("/join_game")
 	public Map<String, String> joinGame(@RequestBody RoomParameters roomParam, HttpSession session) {
-		
-		//for testing
-		/*
-		System.out.println(roomParam.getX());
-		System.out.println(roomParam.getY());
-		System.out.println(roomParam.getZ());
-		*/
-		
-		System.out.println(session.getId());
 		
 		String sessionId = session.getId();
 		
-		if(userRepository.findBySession(sessionId).isEmpty()) {
-			
-			Long time = Instant.now().getEpochSecond();
-			
-			User newUser = new User(sessionId, time);
+		if(userRepository.findBySessionId(sessionId).isEmpty()) {
+			User newUser = new User(sessionId, null, null);
 			userRepository.save(newUser);
 		}
+		updateLastPing(sessionId);
 		
-		Optional<User> currentUser = userRepository.findBySession(sessionId);
+		Optional<User> currentUser = userRepository.findBySessionId(sessionId);
 		
 		//get id of recently inserted user from database
 		HashMap<String, String> userId = new HashMap<String, String>();
 		userId.put("client_id", currentUser.get().getId().toString());
+
+		List<RoomCapacity> rooms = roomCapacityRepository.findAll();
 		
-		//insert new room to database
-		ArrayList<Long> playersList = new ArrayList<Long>();
-		playersList.add(currentUser.get().getId());
+		int i = 0;
 		
-		Turtle testTurtle = new Turtle(1, "red");
-		Turtle testTurtle2 = new Turtle(2, "blue");
+		while(i < rooms.size() && !rooms.get(i).compare()) {i++;}
 		
-		ArrayList<String> stacks = new ArrayList<String>();
-		stacks.add(testTurtle.toString());
-		stacks.add(testTurtle2.toString());
-		
-		System.out.println(stacks);
-		
-		Room newRoom = new Room(playersList, stacks, roomParam.getX(),
-				roomParam.getY(), roomParam.getZ(), "none yet");
-		
-		roomRepository.save(newRoom);
-		//end of insert
+		if(i < rooms.size()) {
+			userRepository.updateRoomId(rooms.get(i).getRoomId(), sessionId);
+		}
+		else {
+			createRoom(roomParam);
+			userRepository.updateRoomId(roomRepository.findLastRoomId(), sessionId);
+		}
 		
 		return userId;
+	}
+	
+	public void createRoom(RoomParameters roomParam) {
+		//create new room
+				//generate stack with turtles
+				ArrayList<Turtle> turtles = new ArrayList<Turtle>();
+				for(int i = 0; i < roomParam.getX(); i++)
+				{
+					turtles.add(new Turtle(i, "color"));//get colors from color base - todo later
+				}
+				
+				//generate fields
+				ArrayList<Field> fields = new ArrayList<Field>();
+				for(int i = 0; i <= roomParam.getZ(); i++) {
+					fields.add(new Field());
+				}
+				//populate fields
+				fields.get(0).setTurtles(turtles);
+				
+				//insert new room to database as text
+				String insert = "[";
+
+				for(int i = 0; i < fields.size(); i++) {
+					insert += fields.get(i).toString();
+					if(i < fields.size()-1) insert += ",";
+				}
+				
+				insert += "]";
+				
+				Room newRoom = new Room(insert, roomParam.getX(),
+						roomParam.getY(), roomParam.getZ(), "none yet");
+				
+				roomRepository.save(newRoom);
+				//end of insert
+	}
+	
+	public void updateLastPing(String sessionId) {
+		userRepository.updateTime(Instant.now().getEpochSecond(), sessionId);
 	}
 	
 }

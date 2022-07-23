@@ -3,13 +3,14 @@ package com.back.chlejacezolwie.user;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("Users")
+@Table("users")
 public class User {
 	
 	@Id
 	private Long id;
-	private String session;
+	private String sessionId;
 	private Long lastPing;
+	private Long roomId;
 	
 	public Long getId() {
 		return id;
@@ -18,10 +19,10 @@ public class User {
 		this.id = id;
 	}
 	public String getSession() {
-		return session;
+		return sessionId;
 	}
-	public void setSession(String session) {
-		this.session = session;
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 	public Long getLastPing() {
 		return lastPing;
@@ -29,14 +30,20 @@ public class User {
 	public void setLastPing(Long lastPing) {
 		this.lastPing = lastPing;
 	}
-	
+	public Long getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(Long roomId) {
+		this.roomId = roomId;
+	}
 	public User() {
 
 	}
 	
-	public User(String session, Long lastPing) {
-		this.session = session;
+	public User(String sessionId, Long lastPing, Long roomId) {
+		this.sessionId = sessionId;
 		this.lastPing = lastPing;
+		this.roomId = roomId;
 	}
 	
 }

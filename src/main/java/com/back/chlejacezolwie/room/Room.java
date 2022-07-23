@@ -5,13 +5,12 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("Room")
+@Table("room")
 public class Room {
 
 	@Id
 	private Long id;
-	private List<Long> players;
-	private List<String> stacks;
+	private String stacks;
 	private int maxPlayers;
 	private int maxCards;
 	private int length;
@@ -23,16 +22,10 @@ public class Room {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<Long> getPlayers() {
-		return players;
-	}
-	public void setPlayers(List<Long> players) {
-		this.players = players;
-	}
-	public List<String> getStacks() {
+	public String getStacks() {
 		return stacks;
 	}
-	public void setStacks(List<String> stacks) {
+	public void setStacks(String stacks) {
 		this.stacks = stacks;
 	}
 	public int getMaxPlayers() {
@@ -63,9 +56,8 @@ public class Room {
 		
 	}
 	
-	public Room(List<Long> players, List<String> stacks, int maxPlayers, 
+	public Room(String stacks, int maxPlayers, 
 			int maxCards, int length, String status) {
-		this.players = players;
 		this.stacks = stacks;
 		this.maxPlayers = maxPlayers;
 		this.maxCards = maxCards;

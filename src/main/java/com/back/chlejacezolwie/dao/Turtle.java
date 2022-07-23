@@ -1,8 +1,16 @@
 package com.back.chlejacezolwie.dao;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Turtle {
 
+	@SerializedName("turtle_id")
+	@Expose
 	private Integer turtleId;
+	
+	@SerializedName("color")
+	@Expose
 	private String color;
 	
 	public Integer getTurtleId() {
@@ -29,8 +37,8 @@ public class Turtle {
 	
 	@Override
 	public String toString() {
-		return "{turtle_id:" + turtleId.toString()
-				+ ",color:\"" + color + "\"}";
+		return "{\"turtle_id\": " + turtleId.toString()
+				+ ", \"color\": \"" + color + "\" }";
 	}
 	
 }

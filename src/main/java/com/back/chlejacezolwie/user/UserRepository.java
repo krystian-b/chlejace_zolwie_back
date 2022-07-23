@@ -3,6 +3,8 @@ package com.back.chlejacezolwie.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jdbc.repository.query.Modifying;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
 
 public interface UserRepository extends Repository <User, Long>{
@@ -11,11 +13,19 @@ public interface UserRepository extends Repository <User, Long>{
 	
 	Optional<User> findById(Long id);
 	
-	Optional<User> findBySession(String session);
+	Optional<User> findBySessionId(String sessionId);
 	
 	List<User> findByLastPingLessThan(Long time);
 	
 	User save(User user);
+	
+	@Modifying
+	@Query("UPDATE users SET last_ping = :time WHERE session_id = :sessionId")
+	void updateTime(Long time, String sessionId);
+	
+	@Modifying
+	@Query("UPDATE users SET room_id = :roomId WHERE session_id = :sessionId")
+	void updateRoomId(Long roomId, String sessionId);
 	
 	//void delete(List<User> users);
 	
