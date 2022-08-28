@@ -14,7 +14,7 @@ public class ApplicationSecurityConfig{
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http.sessionManagement(session ->
-	    	session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+	    	session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 	    		);
 	    http.sessionManagement(session ->
 	    	session.maximumSessions(1));
