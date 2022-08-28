@@ -103,7 +103,7 @@ public class UserApi {
 		//https://www.javadevjournal.com/spring/spring-session-with-jdbc/
 		//https://stackoverflow.com/questions/52978170/spring-session-is-not-creating-tables-spring-session-and-spring-session-attribut
 
-		String sessionId = request.getSession(true).getId();
+		String sessionId = request.getSession().getId();
 		
 		if(userRepository.findBySessionId(sessionId).isEmpty()) {
 			User newUser = new User(sessionId, null, null);
