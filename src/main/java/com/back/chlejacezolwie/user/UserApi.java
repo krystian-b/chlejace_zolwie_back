@@ -83,11 +83,11 @@ public class UserApi {
 		
 		String sessionId = session.getId();
 		
-		if(userRepository.findBySessionId(sessionId).isEmpty()) {
-			User newUser = new User(sessionId, null, null);// wysłać błąd jak nie ma w bazie
-			userRepository.save(newUser);
+		if(!userRepository.findBySessionId(sessionId).isEmpty()) {
+			updateLastPing(sessionId);
+		} else {
+		// wysłać błąd jak nie ma w bazie
 		}
-		updateLastPing(sessionId);
 		
 		return new HashMap<String, String>();
 	}
